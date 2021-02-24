@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head></h:head>
+<body>
+	<!-- 	<p:panel header="Login" toggleable="true" collapsed="false">
+		<h:outputText value="Esta es una pagina" />
+		</p:panel>
+ -->
+
+	<p:growl>
+		<p:autoUpdate></p:autoUpdate>
+	</p:growl>
+	<div align="center">
+		<h:form>
+			<p:panel header="Login" style="width:500px">
+				<h:panelGrid columns="2">
+					<h:outputText value="Usuario: " />
+					<p:inputText required="true"
+						requiredMessage="Debe ingresar su usuario " value="#{beanLogin.idUsuario}"></p:inputText>
+					<h:outputText value="Password: " />
+					<p:password required="true" requiredMessage="Indique una clave" value="#{beanLogin.clave}"></p:password>
+					<p:commandButton value="Login" icon="pi pi-key"
+						action="#{beanLogin.actionLogin()}"></p:commandButton>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</div>
+</body>
+</html>
