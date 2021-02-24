@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+
+	<p:panel>
+		<h3>
+			<h:outputText value="Pagina de administrador" />
+		</h3>
+	</p:panel>
+	<div class="ui-g">
+		<div class="ui-g-2">
+			<h:form>
+				<p:menu>
+					<p:submenu label="Opciones para admin">
+						<p:menuitem value="Usuarios" icon="pi pi-user" action="usuarios"></p:menuitem>
+						<p:menuitem value="Blogs" icon="pi pi-search"></p:menuitem>
+					</p:submenu>
+					<p:submenu label="Usuario admin">
+						<p:menuitem value="Cambiar de contrasenia"></p:menuitem>
+						<p:menuitem value="Editor info personal"></p:menuitem>
+						<p:menuitem value="Cerrar sesión" action="/index"></p:menuitem>
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</div>
+
+		<div class="ui-g-10">
+			<div class="ui-g-6">
+				<h:form>
+					<p:panel header="Nuevo usuario" collapsed="true" toggleable="true">
+						<p:panelGrid columns="2">
+							<h:outputText value="ID del usuario:" />
+							<p:inputText value="#{beanAdmin.idUsuario}" required="true"
+								requiredMessage="Debe ingresar el Id del usuario"></p:inputText>
+							<h:outputText value="Correo electronico:" />
+							<p:inputText value="#{beanAdmin.correo}" required="true"
+								requiredMessage="Ingrese su correo"></p:inputText>
+							<h:outputText value="Contrasenia:" />
+							<p:password value="#{beanAdmin.clave}" required="true"
+								requiredMessage="Indique una contrasenia"></p:password>
+							<p:commandButton
+								actionListener="#{beanAdmin.actionListenerCrearUsuario()}"
+								value="Crear usuario" icon="pi pi-save" 
+								update="@form,:formDatos"></p:commandButton>
+						</p:panelGrid>
+					</p:panel>
+				</h:form>
+			</div>
+			<div class="ui-g-6"></div>
+
+			<div class="ui-g-12">
+			
+			<h:form id="formDatos">
+			
+				<p:dataTable value="#{beanAdmin.listaUsuarios}" var="u">
+					<p:column headerText="ID">
+						<h:outputText value="#{u.idUsuario}" />
+					</p:column>
+					<p:column headerText="Correo">
+						<h:outputText value="#{u.correo}" />
+					</p:column>
+					<p:column headerText="Activo">
+						<h:outputText value="#{u.activo}" />
+					</p:column>
+					<p:column headerText="OPCIONES">
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

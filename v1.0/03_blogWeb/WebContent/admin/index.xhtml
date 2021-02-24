@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+</h:head>
+
+<p:growl>
+	<p:autoUpdate></p:autoUpdate>
+</p:growl>
+<body>
+	<p:panel>
+		<h3>
+			<h:outputText value="Pagina de administrador" />
+		</h3>
+	</p:panel>
+	<div class="ui-g">
+		<div class="ui-g-2">
+			<h:form>
+				<p:menu>
+					<p:submenu label="Opciones para admin">
+						<p:menuitem value="Usuarios" icon="pi pi-user" action="usuarios"></p:menuitem>
+						<p:menuitem value="Blogs" icon="pi pi-search"></p:menuitem>
+					</p:submenu>
+					<p:submenu label="Usuario admin">
+						<p:menuitem value="Cambiar de contrasenia"></p:menuitem>
+						<p:menuitem value="Editor info personal"></p:menuitem>
+						<p:menuitem value="Cerrar sesión" action="/index"></p:menuitem>
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</div>
+		<div class="ui-g-10">
+			<p:panel header="Administrador">
+				<h:outputText value="Página de prueba para administrador" />
+			</p:panel>
+		</div>
+	</div>
+</body>
+</html>
