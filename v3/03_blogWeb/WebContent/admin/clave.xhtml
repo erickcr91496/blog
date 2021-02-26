@@ -4,6 +4,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
+	
+<f:metadata>
+	<f:event listener="#{beanLogin.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
 
 <h:head>
 	<h:outputStylesheet library="css" name="blog.css"></h:outputStylesheet>
@@ -29,7 +34,7 @@
 					<p:menuitem value="Blogs" icon="fa fa-search"></p:menuitem>
 				</p:submenu>
 				<p:submenu label="usuario admin">
-					<p:menuitem value="Cerrar sesion" action="/index"></p:menuitem>
+					<p:menuitem value="Cerrar sesion" action="#{beanLogin.actionCerrarSesion()}"></p:menuitem>
 				</p:submenu>
 			</p:menu>
 		</h:form>

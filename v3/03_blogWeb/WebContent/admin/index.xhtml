@@ -5,14 +5,18 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
+<f:metadata>
+	<f:event listener="#{beanLogin.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
 <h:head>
 	<h:outputStylesheet library="css" name="blog.css"></h:outputStylesheet>
 </h:head>
 <body>
 
-<p:growl>
-	<p:autoUpdate />
-</p:growl>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
 	<p:panel>
 		<h2>
 			<h:outputText value="Sistema para el manejo de Blog" />
@@ -27,10 +31,10 @@
 				</p:submenu>
 				<p:submenu label="Usuario admin">
 					<p:menuitem value="Cambiar de contrasenia"
-					action="#{beanAdmin.actionPaginaCambioClave()}"></p:menuitem>
+						action="#{beanAdmin.actionPaginaCambioClave()}"></p:menuitem>
 					<p:menuitem value="Editar info personal"></p:menuitem>
 					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
-						action="/index"></p:menuitem>
+						action="#{beanLogin.actionCerrarSesion()}"></p:menuitem>
 				</p:submenu>
 			</p:menu>
 		</h:form>

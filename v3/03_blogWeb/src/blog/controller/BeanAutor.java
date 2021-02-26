@@ -50,6 +50,17 @@ public class BeanAutor implements Serializable {
 		
 	}
 	
+	public void acionListenerEliminarBlog(Integer idBlog) {
+		try {
+			mAutor.eliminarBlog(idBlog);
+			listaBlogs=mAutor.findAllBlogsByIdUsuario(beanLogin.getIdUsuario());
+			JSFUtil.createMensajeInfo("Blog eliminado");
+		} catch (Exception e) {
+			JSFUtil.createMensajeError(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	public List<Blog> getListaBlogs() {
 		return listaBlogs;
 	}

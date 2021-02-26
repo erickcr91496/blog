@@ -5,6 +5,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
 
+<f:metadata>
+	<f:event listener="#{beanLogin.actionComprobarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+
 <h:head>
 	<h:outputStylesheet library="css" name="blog.css"></h:outputStylesheet>
 </h:head>
@@ -21,23 +26,18 @@
 		</h2>
 	</p:panel>
 	<p:panelGrid columns="2" styleClass="top_aligned-columns">
-
 		<h:form>
 			<p:menu>
 				<p:submenu label="Opciones para autor">
 					<p:menuitem value="Regresar" icon="pi pi-home" action="index"></p:menuitem>
-
 				</p:submenu>
 				<p:submenu label="Usuario ##{beanAutor.beanLogin.idUsuario}">
-					<p:menuitem value="Cerrar sesion" action="/index"></p:menuitem>
-
+					<p:menuitem value="Cerrar sesion" action="#{beanLogin.actionCerrarSesion()}"></p:menuitem>
 				</p:submenu>
 			</p:menu>
 		</h:form>
-
 		<h:panelGroup>
 			<h:form>
-
 				<p:panel header="Nuevo blog" collapsed="true" toggleable="true">
 					<h:panelGrid columns="2">
 						<h:outputText value="Nombre del blog" />
@@ -47,19 +47,14 @@
 						<h:outputText value="Descripcion:" />
 						<p:inputText value="#{beanAutor.nuevoBlog.descripcion}"
 							required="true" requiredMessage="Ingrese una descripcion"></p:inputText>
-
 						<p:commandButton value="Crear blog" icon="pi pi-save"
 							update="@form,:formDatos"
 							actionListener="#{beanAutor.actionListenerCrearBlog()}"></p:commandButton>
 					</h:panelGrid>
-
 				</p:panel>
 			</h:form>
-
 			<p:panel header="Manejo de blogs">
 				<h:form id="formDatos">
-
-
 					<p:dataTable value="#{beanAutor.listaBlogs}" var="b">
 						<p:column headerText="NOMBRE">
 							<h:outputText value="#{b.nombreBlog}" />
@@ -72,13 +67,14 @@
 						</p:column>
 						<p:column headerText="OPCIONES">
 							<p:commandButton icon="pi pi-times"
-								styleClass="rounded-button ui-button-danger" update="@form">
+								styleClass="rounded-button ui-button-danger"
+								actionListener="#{beanAutor.acionListenerEliminarBlog(b.idBlog)}"
+								update="@form">
 								<p:confirm header="Confirmacion " message="Desea eliminar?"
 									icon="pi pi-exclamation-triangle"></p:confirm>
 							</p:commandButton>
 							<p:commandButton icon="pi pi-check" styleClass="rounded-button"
 								update=":formEdicion" onclick="PF('dlgEdicion').show()"></p:commandButton>
-
 						</p:column>
 					</p:dataTable>
 				</h:form>
@@ -101,6 +97,7 @@
 				<p:inputText value="#{beanAutor.blogEdit.descripcion}"
 					required="true" requiredMessage="Debe ingresar una descripcion"></p:inputText>
 				<p:commandButton value="Actualizar" icon="pi pi-save"
+					actionListener="#{beanAdmin.actionListenerActualizarUsuario()}"
 					update="@form,:formDatos"></p:commandButton>
 			</h:panelGrid>
 		</h:form>
@@ -110,7 +107,6 @@
 			styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
 		<p:commandButton value="NO" type="button"
 			styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-
 	</p:confirmDialog>
 </body>
 </html>
