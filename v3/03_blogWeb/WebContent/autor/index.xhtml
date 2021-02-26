@@ -1,17 +1,41 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:p="http://primefaces.org/ui">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head>
+<h:head>
+	<h:outputStylesheet library="css" name="blog.css"></h:outputStylesheet>
+</h:head>
 <body>
+
+<p:growl>
+	<p:autoUpdate />
+</p:growl>
 	<p:panel>
 		<h2>
-			<h:outputText value="Pagina de autor" />
+			<h:outputText value="Sistema para el manejo de Blog" />
 		</h2>
 	</p:panel>
+	<p:panelGrid columns="2" styleClass="top_aligned-columns">
+		<h:form>
+			<p:menu>
+				<p:submenu label="Opciones para autor">
+					<p:menuitem value="Blogs" icon="pi pi-search" action="blogs"></p:menuitem>
+				</p:submenu>
+				<p:submenu label="Usuario #{beanAdmin.beanLogin.idUsuario} ">
+					<p:menuitem value="Cambiar de contrasenia"></p:menuitem>
+					<p:menuitem value="Editar info personal"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="/index"></p:menuitem>
+				</p:submenu>
+			</p:menu>
+		</h:form>
 
+		<p:panel header="Autor">
+			<h:outputText value="Opciones para el autor de blog" />
+		</p:panel>
+	</p:panelGrid>
 </body>
 </html>

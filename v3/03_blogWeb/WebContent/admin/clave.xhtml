@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<h:outputStylesheet library="css" name="blog.css"></h:outputStylesheet>
+</h:head>
+<body>
+
+	<p:growl>
+		<p:autoUpdate>
+		</p:autoUpdate>
+	</p:growl>
+
+	<p:panel>
+		<h2>
+			<h:outputText value="Pagina del Administrador" />
+		</h2>
+	</p:panel>
+	<p:panelGrid columns="2" styleClass="top_aligned-columns">
+
+		<h:form>
+			<p:menu>
+				<p:submenu label="Opciones para admin">
+					<p:menuitem value="Regresar" icon="fa fa-home" action="index"></p:menuitem>
+					<p:menuitem value="Blogs" icon="fa fa-search"></p:menuitem>
+				</p:submenu>
+				<p:submenu label="usuario admin">
+					<p:menuitem value="Cerrar sesion" action="/index"></p:menuitem>
+				</p:submenu>
+			</p:menu>
+		</h:form>
+
+		<h:panelGroup>
+			<h:form>
+				<p:panel header="Cambio de clave">
+					<h:panelGrid columns="2">
+						<h:outputText value="Contraseña actual:" />
+						<p:password value="#{beanAdmin.clave}" required="true"
+							requiredMessage="Ingrese la contraseña actual"></p:password>
+						<h:outputText value="Nueva contrasenia:" />
+						<p:password value="#{beanAdmin.nuevaClave}" required="true"
+							requiredMessage="Indique la nueva contraseña "></p:password>
+						<h:outputText value="Repita la nueva contrasenia:" />
+						<p:password value="#{beanAdmin.nuevaClaveComprobacion}"
+							required="true" requiredMessage="Repita la nueva contrasenia"></p:password>
+						<p:commandButton value="Cambiar contrase;a" icon="pi pi-save"
+							actionListener="#{beanAdmin.actionListenerCambiarClave()}"
+							update="@form"></p:commandButton>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+		</h:panelGroup>
+	</p:panelGrid>
+</body>
+</html>

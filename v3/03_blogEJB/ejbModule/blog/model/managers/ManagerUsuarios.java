@@ -74,6 +74,9 @@ public class ManagerUsuarios {
 		Usuario u = em.find(Usuario.class, idUsuario);
 		if (u==null) 
 			throw new Exception("No existe el usuario indicado ("+idUsuario+")");
+		//no se puede eliminar el usuario "admin"
+		if(u.getIdUsuario().equals("admin"))
+			throw new Exception("No se puede eliminar el usuario admin.");
 		em.remove(u);
 		
 	}
@@ -88,5 +91,24 @@ public class ManagerUsuarios {
 		u.setCorreo(usuario.getCorreo());
 		em.merge(u);
 	}
-
+	
+	public void cambiarClaveUsuario(String idUsario, String claveActual, 
+				String nuevaClave,String nuevaClaveComprovacion) throws Exception {
+		Usuario u = em.find(Usuario.class, idUsario);
+		if (u==null)
+			throw new Exception(" No existe el usuario indicado ("+idUsario+")");
+		//comprobar clave actual:
+		if(u.getClave().equals(claveActual)) {
+			//comprobar la nueva clave
+			if (nuevaClave.equals(nuevaClaveComprovacion)) {
+				//se cambia la clave al coincidir todos los parametos:
+				u.setClave(nuevaClave);
+				em.merge(u);
+				return;
+			}
+		}
+		throw new Exception("Error en claves, porfavor verifique");
+	}
+		
+	
 }

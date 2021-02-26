@@ -17,18 +17,18 @@
 
 	<p:panel>
 		<h2>
-			<h:outputText value="Pagina del Administrador" />
+			<h:outputText value="Sistema para manejo de blogs" />
 		</h2>
 	</p:panel>
 	<p:panelGrid columns="2" styleClass="top_aligned-columns">
 
 		<h:form>
 			<p:menu>
-				<p:submenu label="Opciones para admin">
+				<p:submenu label="Opciones para autor">
 					<p:menuitem value="Regresar" icon="pi pi-home" action="index"></p:menuitem>
 
 				</p:submenu>
-				<p:submenu label="usuario admin">
+				<p:submenu label="Usuario ##{beanAutor.beanLogin.idUsuario}">
 					<p:menuitem value="Cerrar sesion" action="/index"></p:menuitem>
 
 				</p:submenu>
@@ -38,49 +38,45 @@
 		<h:panelGroup>
 			<h:form>
 
-				<p:panel header="Nuevo usuario" collapsed="true" toggleable="true">
+				<p:panel header="Nuevo blog" collapsed="true" toggleable="true">
 					<h:panelGrid columns="2">
-						<h:outputText value="Id del usuario" />
-						<p:inputText value="#{beanAdmin.idUsuario}" required="true"
-							requiredMessage="debe ingresar el ID del usuario"></p:inputText>
-						<h:outputText value="Correo Electronico" />
-						<p:inputText value="#{beanAdmin.correo}" required="true"
-							requiredMessage="debe ingresar el correo"></p:inputText>
-						<h:outputText value="Contraseña:" />
-						<p:password value="#{beanAdmin.clave}" required="true"
-							requiredMessage="Ingrese una contraseña"></p:password>
-						<p:commandButton
-							actionListener="#{beanAdmin.actionListenerCrearUsaurio()}"
-							value="Crear Usuario" icon="pi pi-save" update="@form,:formDatos"></p:commandButton>
+						<h:outputText value="Nombre del blog" />
+						<p:inputText value="#{beanAutor.nuevoBlog.nombreBlog}"
+							required="true"
+							requiredMessage="Debe ingresar el nombre del blog"></p:inputText>
+						<h:outputText value="Descripcion:" />
+						<p:inputText value="#{beanAutor.nuevoBlog.descripcion}"
+							required="true" requiredMessage="Ingrese una descripcion"></p:inputText>
+
+						<p:commandButton value="Crear blog" icon="pi pi-save"
+							update="@form,:formDatos"
+							actionListener="#{beanAutor.actionListenerCrearBlog()}"></p:commandButton>
 					</h:panelGrid>
 
 				</p:panel>
 			</h:form>
 
-			<p:panel header="Manejo de usuarios">
+			<p:panel header="Manejo de blogs">
 				<h:form id="formDatos">
 
 
-					<p:dataTable value="#{beanAdmin.listaUsuarios}" var="u">
-						<p:column headerText="ID">
-							<h:outputText value="#{u.idUsuario}" />
+					<p:dataTable value="#{beanAutor.listaBlogs}" var="b">
+						<p:column headerText="NOMBRE">
+							<h:outputText value="#{b.nombreBlog}" />
 						</p:column>
-						<p:column headerText="Correo">
-							<h:outputText value="#{u.correo}" />
+						<p:column headerText="DESCRIPCION">
+							<h:outputText value="#{b.descripcion}" />
 						</p:column>
-						<p:column headerText="ACTIVO">
-							<h:outputText value="#{u.activo}" />
+						<p:column headerText="FECHA CREACION">
+							<h:outputText value="#{b.fechaCreacion}" />
 						</p:column>
 						<p:column headerText="OPCIONES">
 							<p:commandButton icon="pi pi-times"
-								styleClass="rounded-button ui-button-danger"
-								actionListener="#{beanAdmin.actionListenerEliminarUsuario(u.idUsuario)}"
-								update="@form">
+								styleClass="rounded-button ui-button-danger" update="@form">
 								<p:confirm header="Confirmacion " message="Desea eliminar?"
 									icon="pi pi-exclamation-triangle"></p:confirm>
 							</p:commandButton>
 							<p:commandButton icon="pi pi-check" styleClass="rounded-button"
-								actionListener="#{beanAdmin.actionListenerSeleccionarUsuario(u)}"
 								update=":formEdicion" onclick="PF('dlgEdicion').show()"></p:commandButton>
 
 						</p:column>
@@ -96,16 +92,16 @@
 				<p:autoUpdate />
 			</p:growl>
 			<h:panelGrid columns="2">
-				<h:outputText value="ID usuario:" />
-				<h:outputText value="#{beanAdmin.usuarioEdit.idUsuario}" />
-				<h:outputText value="Correo" />
-				<p:inputText value="#{beanAdmin.usuarioEdit.correo}" required="true"
-					requiredMessage="Debe ingresar el correo"></p:inputText>
-				<h:outputText value="Activo" />
-				<p:selectBooleanCheckbox value="#{beanAdmin.usuarioEdit.activo}"></p:selectBooleanCheckbox>
+				<h:outputText value="ID blog" />
+				<h:outputText value="#{beanAutor.blogEdit.idBlog}" />
+				<h:outputText value="Nombre del blog" />
+				<p:inputText value="#{beanAutor.blogEdit.nombreBlog}"
+					required="true" requiredMessage="Debe ingresar el nombre del blog"></p:inputText>
+				<h:outputText value="Descripcion" />
+				<p:inputText value="#{beanAutor.blogEdit.descripcion}"
+					required="true" requiredMessage="Debe ingresar una descripcion"></p:inputText>
 				<p:commandButton value="Actualizar" icon="pi pi-save"
-					update="@form,:formDatos"
-					actionListener="#{beanAdmin.actionListenerActualizarUsuario()}"></p:commandButton>
+					update="@form,:formDatos"></p:commandButton>
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>

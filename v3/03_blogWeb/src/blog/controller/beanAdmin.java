@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import blog.controller.util.JSFUtil;
@@ -24,6 +25,11 @@ public class beanAdmin implements Serializable {
 		
 		@EJB
 		private ManagerUsuarios mUsuarios;
+		private String nuevaClave;
+		private String nuevaClaveComprobacion;
+		// referencia al bean de sesion cuando el usuario realizo login:
+		@Inject
+		private BeanLogin beanLogin;
 		
 	public beanAdmin() {
 	
@@ -37,9 +43,11 @@ public class beanAdmin implements Serializable {
 	public void actionListenerCrearUsaurio() {
 		try {
 			mUsuarios.crearUsuario(idUsuario, correo, clave);
-			//actualizamos la lista de usuarios;
-			listaUsuarios = mUsuarios.findAllUsuarios();
 			JSFUtil.createMensajeInfo("Usuario creado");
+
+			listaUsuarios = mUsuarios.findAllUsuarios();
+			idUsuario="";
+			correo="";
 		} catch (Exception e) {
 			JSFUtil.createMensajeError(e.getMessage());
 			e.printStackTrace();
@@ -71,6 +79,35 @@ public class beanAdmin implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public String actionPaginaCambioClave() {
+		nuevaClave="";
+		nuevaClaveComprobacion="";
+		return "clave";
+	}
+	
+	public void actionListenerCambiarClave() {
+		try {
+			mUsuarios.cambiarClaveUsuario(beanLogin.getIdUsuario(),clave,nuevaClave,nuevaClaveComprobacion);
+			JSFUtil.createMensajeInfo("Clave actualizada");
+		} catch (Exception e) {
+			JSFUtil.createMensajeError(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public String getNuevaClave() {
+		return nuevaClave;
+	}
+	public void setNuevaClave(String nuevaClave) {
+		this.nuevaClave = nuevaClave;
+	}
+	public String getNuevaClaveComprobacion() {
+		return nuevaClaveComprobacion;
+	}
+	public void setNuevaClaveComprobacion(String nuevaClaveComprobacion) {
+		this.nuevaClaveComprobacion = nuevaClaveComprobacion;
+	}
 	public List<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
@@ -100,6 +137,12 @@ public class beanAdmin implements Serializable {
 	}
 	public void setUsuarioEdit(Usuario usuarioEdit) {
 		this.usuarioEdit = usuarioEdit;
+	}
+	public BeanLogin getBeanLogin() {
+		return beanLogin;
+	}
+	public void setBeanLogin(BeanLogin beanLogin) {
+		this.beanLogin = beanLogin;
 	}
 
 

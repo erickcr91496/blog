@@ -15,7 +15,7 @@
 </p:growl>
 	<p:panel>
 		<h2>
-			<h:outputText value="Pagina de administrador" />
+			<h:outputText value="Sistema para el manejo de Blog" />
 		</h2>
 	</p:panel>
 	<p:panelGrid columns="2" styleClass="top_aligned-columns">
@@ -26,7 +26,8 @@
 					<p:menuitem value="Blogs" icon="pi pi-search"></p:menuitem>
 				</p:submenu>
 				<p:submenu label="Usuario admin">
-					<p:menuitem value="Cambiar de contrasenia"></p:menuitem>
+					<p:menuitem value="Cambiar de contrasenia"
+					action="#{beanAdmin.actionPaginaCambioClave()}"></p:menuitem>
 					<p:menuitem value="Editar info personal"></p:menuitem>
 					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
 						action="/index"></p:menuitem>
@@ -35,7 +36,7 @@
 		</h:form>
 
 		<p:panel header="Administrador">
-			<h:outputText value="Página de prueba para administrador" />
+			<h:outputText value="Opciones para el administrador" />
 		</p:panel>
 	</p:panelGrid>
 </body>
