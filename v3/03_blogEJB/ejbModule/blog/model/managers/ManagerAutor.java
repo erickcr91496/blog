@@ -1,5 +1,6 @@
 package blog.model.managers;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.persistence.Query;
 
 import blog.model.entities.Articulo;
 import blog.model.entities.Blog;
+import blog.model.entities.Clasificacion;
 import blog.model.entities.Usuario;
 
 /**
@@ -84,10 +86,30 @@ public class ManagerAutor {
 	 * Metodo para crear un nuevo articulo
 	 * @param nuevoArticulo El nuevo objeto articulo que debera guardarse
 	 * @param idBlog El id del blog al que pertenece el articulo
-	 * @param idClasificacion
+	 * @param idClasificacion el id de clasificacion del articulo
+	 * @throws Exception 
 	 */
-	public void crearArticulo(Articulo nuevoArticulo,Integer idBlog,Integer idClasificacion) {
-		
+	public void crearArticulo(Articulo nuevoArticulo,Integer idBlog,Integer idClasificacion) throws Exception {
+		if (em.contains(nuevoArticulo))
+			throw new Exception("El nuevo articulo indicado ya existe en la base de datos");
+		Blog b  = em.find(Blog.class,idBlog);
+		Clasificacion c = em.find(Clasificacion.class, idClasificacion);
+		//asignamos las claves foraneas (objetos relacionados);
+		nuevoArticulo.setBlog(b);
+		nuevoArticulo.setClasificacion(c);
+		em.persist(nuevoArticulo);
+	}
+	
+	public void actualizarArticulo(Articulo articuloEdit,Integer idClasificacion) {
+		//buscamos articulo original;
+		Articulo a =em.find(Articulo.class,articuloEdit.getIdArticulo());
+		//objetos relacionados:
+		Clasificacion c = em.find(Clasificacion.class, idClasificacion);
+		a.setContenido(articuloEdit.getContenido());
+		Timestamp t = new Timestamp(new Date().getTime());
+		a.setFechaModificacion(t);
+		a.setTitulo(articuloEdit.getTitulo());
+		em.merge(a);
 	}
 		
 	

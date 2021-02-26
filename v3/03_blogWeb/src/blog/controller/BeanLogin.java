@@ -76,7 +76,7 @@ public class BeanLogin implements Serializable {
 						return;
 				}
 				// caso contrario es un autor de blog:
-				if (path.contains("/autir/") == false)
+				if (path.contains("/autor/") == false)
 					ec.redirect(ec.getRequestContextPath() + "/faces/index.xhtml");
 			}
 		} catch (IOException e) {

@@ -14,12 +14,10 @@
 	<h:outputStylesheet library="css" name="blog.css"></h:outputStylesheet>
 </h:head>
 <body>
-
 	<p:growl>
 		<p:autoUpdate>
 		</p:autoUpdate>
 	</p:growl>
-
 	<p:panel>
 		<h2>
 			<h:outputText value="Sistema para manejo de blogs" />
@@ -29,9 +27,9 @@
 		<h:form>
 			<p:menu>
 				<p:submenu label="Opciones para autor">
-					<p:menuitem value="Regresar" icon="pi pi-home" action="index"></p:menuitem>
+					<p:menuitem value="Regresar" icon="pi pi-home" action="blogs"></p:menuitem>
 				</p:submenu>
-				<p:submenu label="Usuario ##{beanAutor.beanLogin.idUsuario}">
+				<p:submenu label="Usuario #{beanAutor.beanLogin.idUsuario}">
 					<p:menuitem value="Cerrar sesion"
 						action="#{beanLogin.actionCerrarSesion()}"></p:menuitem>
 				</p:submenu>
@@ -39,47 +37,46 @@
 		</h:form>
 		<h:panelGroup>
 			<h:form>
-				<p:panel header="Nuevo blog" collapsed="true" toggleable="true">
+				<p:panel header="Nuevo articulo" collapsed="true" toggleable="true">
 					<h:panelGrid columns="2">
-						<h:outputText value="Nombre del blog" />
-						<p:inputText value="#{beanAutor.nuevoBlog.nombreBlog}"
-							required="true"
-							requiredMessage="Debe ingresar el nombre del blog"></p:inputText>
-						<h:outputText value="Descripcion:" />
-						<p:inputText value="#{beanAutor.nuevoBlog.descripcion}"
-							required="true" requiredMessage="Ingrese una descripcion"></p:inputText>
-						<p:commandButton value="Crear blog" icon="pi pi-save"
-							update="@form,:formDatos"
-							actionListener="#{beanAutor.actionListenerCrearBlog()}"></p:commandButton>
+						<h:outputText value="Titulo del articulo" />
+						<p:inputText value="#{beanAutor.nuevoArticulo.titulo}"
+							required="true" requiredMessage="Debe ingresar un titulo"></p:inputText>
+						<h:outputText value="Contenido:" />
+						<p:inputText value="#{beanAutor.nuevoArticulo.contenido}"></p:inputText>
+						<h:outputText value="Clasificacion: " />
+						<p:selectOneMenu>
+							<f:selectItems value="#{beanAutor.listaClasificacions}" var="c"
+								itemLabel="#{c.descripcion}" itemValue="#{c.idClasificacion}"></f:selectItems>
+						</p:selectOneMenu>
+						<p:commandButton value="Crear articulo" icon="pi pi-save"
+							update="@form,:formDatos"></p:commandButton>
 					</h:panelGrid>
 				</p:panel>
 			</h:form>
-			<p:panel header="Manejo de blogs">
+			<p:panel header="Manejo de articulos">
 				<h:form id="formDatos">
-
-					<p:dataTable value="#{beanAutor.listaBlogs}" var="b">
-
-						<p:column headerText="NOMBRE">
-							<h:outputText value="#{b.nombreBlog}" />
+					<p:dataTable value="#{beanAutor.listaArticulos}" var="a">
+						<p:column headerText="TITULO">
+							<h:outputText value="#{a.titulo}" />
 						</p:column>
-						<p:column headerText="DESCRIPCION">
-							<h:outputText value="#{b.descripcion}" />
+						<p:column headerText="FECHA CREACION ">
+							<h:outputText value="#{a.fechaCreacion}" />
 						</p:column>
-						<p:column headerText="FECHA DE CREACION">
-							<h:outputText value="#{b.fechaCreacion}" />
+						<p:column headerText="FECHA MODIFICACION">
+							<h:outputText value="#{a.fechaModificacion}" />
+						</p:column>
+						<p:column headerText="LIKES">
+							<h:outputText value="#{a.likes}" />
 						</p:column>
 						<p:column headerText="OPCIONES">
 							<p:commandButton icon="pi pi-times"
-								styleClass="rounded-button ui-button-danger" update="@form"
-								>
+								styleClass="rounded-button ui-button-danger" update="@form">
 								<p:confirm header="Confirmacion " message="Desea eliminar?"
 									icon="pi pi-exclamation-triangle"></p:confirm>
 							</p:commandButton>
 							<p:commandButton icon="pi pi-check" styleClass="rounded-button"
 								update=":formEdicion" onclick="PF('dlgEdicion').show()"></p:commandButton>
-							<p:commandButton icon="pi pi-search" styleClass="rounded-button"
-								title="articulos"
-								action="#{beanAutor.actionConsultarArticulosByBlog(b.idBlog)}"></p:commandButton>
 						</p:column>
 					</p:dataTable>
 				</h:form>
@@ -93,16 +90,14 @@
 				<p:autoUpdate />
 			</p:growl>
 			<h:panelGrid columns="2">
-				<h:outputText value="ID blog" />
-				<h:outputText value="#{beanAutor.blogEdit.idBlog}" />
-				<h:outputText value="Nombre del blog" />
-				<p:inputText value="#{beanAutor.blogEdit.nombreBlog}"
-					required="true" requiredMessage="Debe ingresar el nombre del blog"></p:inputText>
-				<h:outputText value="Descripcion" />
-				<p:inputText value="#{beanAutor.blogEdit.descripcion}"
-					required="true" requiredMessage="Debe ingresar una descripcion"></p:inputText>
+				<h:outputText value="ID articulo" />
+				<h:outputText value="#{beanAutor.articuloEdit.idArticulo}" />
+				<h:outputText value="Titulo del articulo" />
+				<p:inputText value="#{beanAutor.articuloEdit.titulo}"
+					required="true" requiredMessage="Debe ingresar el titulo"></p:inputText>
+				<h:outputText value="Contenido" />
+				<p:inputText value="#{beanAutor.articuloEdit.contenido}"></p:inputText>
 				<p:commandButton value="Actualizar" icon="pi pi-save"
-					actionListener="#{beanAdmin.actionListenerActualizarUsuario()}"
 					update="@form,:formDatos"></p:commandButton>
 			</h:panelGrid>
 		</h:form>
