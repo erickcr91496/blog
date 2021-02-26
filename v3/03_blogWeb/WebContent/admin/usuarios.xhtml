@@ -26,7 +26,7 @@
 			<h:form>
 				<p:menu>
 					<p:submenu label="Opciones para admin">
-						<p:menuitem value="Usuarios" icon="fa fa-user" action="usuarios"></p:menuitem>
+						<p:menuitem value="Regresar" icon="fa fa-home" action="index"></p:menuitem>
 						<p:menuitem value="Blogs" icon="fa fa-search"></p:menuitem>
 
 					</p:submenu>
@@ -57,7 +57,7 @@
 								requiredMessage="Ingrese una contraseña"></p:password>
 							<p:commandButton
 								actionListener="#{beanAdmin.actionListenerCrearUsaurio()}"
-								value="Crear Usuario" icon="fa fa-save"
+								value="Crear Usuario" icon="pi pi-save"
 								update="@form,:formDatos"></p:commandButton>
 						</h:panelGrid>
 
@@ -81,7 +81,12 @@
 							<h:outputText value="#{u.activo}" />
 						</p:column>
 						<p:column headerText="OPCIONES">
-
+							<p:commandButton icon="pi pi-times" type="button" styleClass="rounded-button ui-button-danger"
+								actionListener="#{beanAdmin.actionListenerEliminarUsuario(u.idUsuario)}"
+								update="@form"></p:commandButton>
+							<p:commandButton  type="button" icon="pi pi-check" styleClass="rounded-button" 
+								actionListener="#{beanAdmin.actionListenerSeleccionarUsuario(u)}"
+								update=":formEdicion" onclick="PF('dlgEdicion').show()"></p:commandButton>
 
 						</p:column>
 					</p:dataTable>
@@ -89,5 +94,26 @@
 			</div>
 		</div>
 	</div>
+	<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
+		modal="true">
+		<h:form id="formEdicion">
+			<p:growl>
+				<p:autoUpdate />
+			</p:growl>
+			<h:panelGrid columns="2">
+				<h:outputText value="ID usuario:" />
+				<h:outputText value="#{beanAdmin.usuarioEdit.idUsuario}" />
+				<h:outputText value="Correo" />
+				<p:inputText value="#{beanAdmin.usuarioEdit.correo}" required="true"
+					requiredMessage="Debe ingresar el correo"></p:inputText>
+				<h:outputText value="Activo" />
+				<p:selectBooleanCheckbox value="#{beanAdmin.usuarioEdit.activo}"></p:selectBooleanCheckbox>
+				<p:commandButton value="Actualizar" icon="pi pi-save"
+					update="@form,:formDatos"
+					actionListener="#{beanAdmin.actionListenerActualizarUsuario()}"></p:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</p:dialog>
+
 </body>
 </html>

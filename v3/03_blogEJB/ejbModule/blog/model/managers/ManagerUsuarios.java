@@ -69,5 +69,24 @@ public class ManagerUsuarios {
 		u.setActivo(true);
 		em.persist(u);
 	}
+	
+	public void eliminarUsuario(String idUsuario) throws Exception{
+		Usuario u = em.find(Usuario.class, idUsuario);
+		if (u==null) 
+			throw new Exception("No existe el usuario indicado ("+idUsuario+")");
+		em.remove(u);
+		
+	}
+	
+	public void actualizarUsuario(Usuario usuario) throws Exception {
+		//buscar objeto original
+		Usuario u = em.find(Usuario.class, usuario.getIdUsuario());
+		if(u==null)
+			throw new Exception("No existe el usuario indicado ("+usuario.getIdUsuario()+")");
+		u.setActivo(usuario.getActivo());
+		u.setClave(usuario.getClave());
+		u.setCorreo(usuario.getCorreo());
+		em.merge(u);
+	}
 
 }

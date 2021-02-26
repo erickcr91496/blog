@@ -20,6 +20,8 @@ public class beanAdmin implements Serializable {
 		private String idUsuario;
 		private String correo;
 		private String clave;
+		private Usuario usuarioEdit;
+		
 		@EJB
 		private ManagerUsuarios mUsuarios;
 		
@@ -44,6 +46,31 @@ public class beanAdmin implements Serializable {
 		}
 	}
 	
+	public void actionListenerEliminarUsuario(String idUsuario) {
+		try {
+			mUsuarios.eliminarUsuario(idUsuario);
+			listaUsuarios = mUsuarios.findAllUsuarios();
+
+			JSFUtil.createMensajeInfo("Usuario "+idUsuario+" eliminado.");
+		} catch (Exception e) {
+			JSFUtil.createMensajeError(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	public void actionListenerSeleccionarUsuario(Usuario usuario) {
+		usuarioEdit = usuario;
+		System.out.println("Usuario seleccionado: "+usuarioEdit.getIdUsuario());
+	}
+	
+	public void actionListenerActualizarUsuario() {
+		try {
+			mUsuarios.actualizarUsuario(usuarioEdit);
+			JSFUtil.createMensajeInfo("Usuario actualizado");
+		} catch (Exception e) {
+			JSFUtil.createMensajeError("Usuario actualizado");
+			e.printStackTrace();
+		}
+	}
 	public List<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
@@ -67,6 +94,12 @@ public class beanAdmin implements Serializable {
 	}
 	public void setClave(String clave) {
 		this.clave = clave;
+	}
+	public Usuario getUsuarioEdit() {
+		return usuarioEdit;
+	}
+	public void setUsuarioEdit(Usuario usuarioEdit) {
+		this.usuarioEdit = usuarioEdit;
 	}
 
 

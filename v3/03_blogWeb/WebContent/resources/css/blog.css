@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+
+.top_aligned-columns td {
+	vertical-align:top;
+}
