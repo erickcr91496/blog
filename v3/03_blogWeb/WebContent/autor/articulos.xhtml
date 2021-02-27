@@ -43,39 +43,51 @@
 						<p:inputText value="#{beanAutor.nuevoArticulo.titulo}"
 							required="true" requiredMessage="Debe ingresar un titulo"></p:inputText>
 						<h:outputText value="Contenido:" />
-						<p:inputText value="#{beanAutor.nuevoArticulo.contenido}"></p:inputText>
-						<h:outputText value="Clasificacion: " />
-						<p:selectOneMenu>
+						<p:textEditor secure="false"
+							value="#{beanAutor.nuevoArticulo.contenido}" />
+						<h:outputText value="Clasificacion:" />
+
+						<p:selectOneMenu value="#{beanAutor.idClasificacionSeleccionado}">
 							<f:selectItems value="#{beanAutor.listaClasificacions}" var="c"
 								itemLabel="#{c.descripcion}" itemValue="#{c.idClasificacion}"></f:selectItems>
 						</p:selectOneMenu>
 						<p:commandButton value="Crear articulo" icon="pi pi-save"
-							update="@form,:formDatos"></p:commandButton>
+							update="@form,:formDatos"
+							actionListener="#{beanAutor.actionListenerCrearArticulo()}"></p:commandButton>
 					</h:panelGrid>
 				</p:panel>
 			</h:form>
 			<p:panel header="Manejo de articulos">
 				<h:form id="formDatos">
 					<p:dataTable value="#{beanAutor.listaArticulos}" var="a">
+						<f:facet name="header">
+							<h:outputText
+								value="Articuos del blog: #{beanAutor.blogSeleccionado.nombreBlog}" />
+						</f:facet>
 						<p:column headerText="TITULO">
 							<h:outputText value="#{a.titulo}" />
 						</p:column>
 						<p:column headerText="FECHA CREACION ">
 							<h:outputText value="#{a.fechaCreacion}" />
 						</p:column>
-						<p:column headerText="FECHA MODIFICACION">
+						<p:column headerText="FECHA MODIFICACION ">
 							<h:outputText value="#{a.fechaModificacion}" />
 						</p:column>
-						<p:column headerText="LIKES">
+						<p:column headerText="LIKES" style="width:60px">
 							<h:outputText value="#{a.likes}" />
+						</p:column>
+						<p:column headerText="CLASIFICACIÓN:">
+							<h:outputText value="#{a.clasificacion.descripcion}" />
 						</p:column>
 						<p:column headerText="OPCIONES">
 							<p:commandButton icon="pi pi-times"
 								styleClass="rounded-button ui-button-danger" update="@form">
-								<p:confirm header="Confirmacion " message="Desea eliminar?"
+								
+							<p:confirm header="Confirmacion " message="Desea eliminar?"
 									icon="pi pi-exclamation-triangle"></p:confirm>
 							</p:commandButton>
 							<p:commandButton icon="pi pi-check" styleClass="rounded-button"
+								actionListener="#{beanAutor.actionListenerSeleccionarArticulo(a)}"
 								update=":formEdicion" onclick="PF('dlgEdicion').show()"></p:commandButton>
 						</p:column>
 					</p:dataTable>
@@ -83,25 +95,34 @@
 			</p:panel>
 		</h:panelGroup>
 	</p:panelGrid>
-	<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
-		modal="true">
-		<h:form id="formEdicion">
-			<p:growl>
-				<p:autoUpdate />
-			</p:growl>
-			<h:panelGrid columns="2">
-				<h:outputText value="ID articulo" />
-				<h:outputText value="#{beanAutor.articuloEdit.idArticulo}" />
-				<h:outputText value="Titulo del articulo" />
-				<p:inputText value="#{beanAutor.articuloEdit.titulo}"
-					required="true" requiredMessage="Debe ingresar el titulo"></p:inputText>
-				<h:outputText value="Contenido" />
-				<p:inputText value="#{beanAutor.articuloEdit.contenido}"></p:inputText>
-				<p:commandButton value="Actualizar" icon="pi pi-save"
-					update="@form,:formDatos"></p:commandButton>
-			</h:panelGrid>
-		</h:form>
-	</p:dialog>
+	<p:panel>
+		<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
+			modal="true">
+			<h:form id="formEdicion">
+				<p:growl>
+					<p:autoUpdate />
+				</p:growl>
+				<h:panelGrid columns="2">
+					<h:outputText value="ID articulo" />
+					<h:outputText value="#{beanAutor.articuloEdit.idArticulo}" />
+					<h:outputText value="Titulo del articulo" />
+					<p:inputText value="#{beanAutor.articuloEdit.titulo}"
+						required="true" requiredMessage="Debe ingresar el titulo"></p:inputText>
+					<h:outputText value="Contenido" />
+					<p:textEditor secure="false"
+						value="#{beanAutor.articuloEdit.contenido}" />
+					<h:outputText value="Clasificación: " />
+					<p:selectOneMenu value="#{beanAutor.idClasificacionSeleccionado}">
+						<f:selectItems value="#{beanAutor.listaClasificacions}" var="c"
+							itemLabel="#{c.descripcion}" itemValue="#{c.idClasificacion}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:commandButton value="Actualizar" icon="pi pi-save"
+						actionListener="#{beanAutor.actionListenerActualizarArticulo()}"
+						update="@form,:formDatos"></p:commandButton>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</p:panel>
 	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 		<p:commandButton value="SI" type="button"
 			styleClass="ui-confirmdialog-yes" icon="pi pi-check" />

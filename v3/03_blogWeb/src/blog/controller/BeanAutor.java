@@ -14,6 +14,7 @@ import blog.model.entities.Articulo;
 import blog.model.entities.Blog;
 import blog.model.entities.Clasificacion;
 import blog.model.managers.ManagerAutor;
+import blog.model.managers.ManagerClasificacion;
 
 @Named
 @SessionScoped
@@ -24,12 +25,16 @@ public class BeanAutor implements Serializable {
 	private BeanLogin beanLogin;
 	@EJB
 	private ManagerAutor mAutor;
+	@EJB
+	private ManagerClasificacion mClasificacion;
 	private Blog nuevoBlog;
 	private Blog blogEdit;
 	private Articulo nuevoArticulo;
 	private List<Articulo> listaArticulos;
 	private Articulo articuloEdit;
 	private List<Clasificacion> listaClasificacions;
+	private Blog blogSeleccionado;
+	private Integer idClasificacionSeleccionado;
 	
 	public BeanAutor() {
 		
@@ -69,9 +74,35 @@ public class BeanAutor implements Serializable {
 		}
 	}
 	
-	public String actionConsultarArticulosByBlog(Integer idBlog) {
-		listaArticulos=mAutor.findArticulosByBlog(idBlog);
+	public String actionConsultarArticulosByBlog(Blog blog) {
+		listaArticulos=mAutor.findArticulosByBlog(blog.getIdBlog());
+		listaClasificacions=mClasificacion.findAllClasificacion();
+		blogSeleccionado=blog;
 		return "articulos?faces-redirect=true";
+	}
+	
+	public void actionListenerCrearArticulo() {
+		try {
+			mAutor.crearArticulo(nuevoArticulo, blogSeleccionado.getIdBlog(), idClasificacionSeleccionado);
+			listaArticulos = mAutor.findArticulosByBlog(blogSeleccionado.getIdBlog());
+			JSFUtil.createMensajeInfo("Articulo creado");
+			nuevoArticulo = new Articulo(); // para limpiar el formulario de nuevo articulo
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			JSFUtil.createMensajeError(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public void actionListenerSeleccionarArticulo(Articulo articulo) {
+		articuloEdit= articulo;
+		idClasificacionSeleccionado = articulo.getClasificacion().getIdClasificacion();
+	}
+	
+	public void actionListenerActualizarArticulo() {
+		mAutor.actualizarArticulo(articuloEdit, idClasificacionSeleccionado);
+		listaArticulos=mAutor.findArticulosByBlog(blogSeleccionado.getIdBlog());
+		JSFUtil.createMensajeInfo("Articulo actualizado");
 	}
 	
 	public List<Blog> getListaBlogs() {
@@ -121,6 +152,18 @@ public class BeanAutor implements Serializable {
 	}
 	public void setListaClasificacions(List<Clasificacion> listaClasificacions) {
 		this.listaClasificacions = listaClasificacions;
+	}
+	public Blog getBlogSeleccionado() {
+		return blogSeleccionado;
+	}
+	public void setBlogSeleccionado(Blog blogSeleccionado) {
+		this.blogSeleccionado = blogSeleccionado;
+	}
+	public Integer getIdClasificacionSeleccionado() {
+		return idClasificacionSeleccionado;
+	}
+	public void setIdClasificacionSeleccionado(Integer idClasificacionSeleccionado) {
+		this.idClasificacionSeleccionado = idClasificacionSeleccionado;
 	}
 	
 	

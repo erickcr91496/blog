@@ -1,5 +1,6 @@
 package blog.model.managers;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -97,6 +98,11 @@ public class ManagerAutor {
 		//asignamos las claves foraneas (objetos relacionados);
 		nuevoArticulo.setBlog(b);
 		nuevoArticulo.setClasificacion(c);
+		nuevoArticulo.setFechaCreacion(new Date());
+		nuevoArticulo.setLikes(0);
+		Timestamp t = new Timestamp(new Date().getTime());
+		nuevoArticulo.setFechaModificacion(t);
+		nuevoArticulo.setRecaudado(new BigDecimal("0.0"));
 		em.persist(nuevoArticulo);
 	}
 	
@@ -105,6 +111,7 @@ public class ManagerAutor {
 		Articulo a =em.find(Articulo.class,articuloEdit.getIdArticulo());
 		//objetos relacionados:
 		Clasificacion c = em.find(Clasificacion.class, idClasificacion);
+		a.setClasificacion(c);
 		a.setContenido(articuloEdit.getContenido());
 		Timestamp t = new Timestamp(new Date().getTime());
 		a.setFechaModificacion(t);

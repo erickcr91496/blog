@@ -71,7 +71,7 @@
 						<p:column headerText="OPCIONES">
 							<p:commandButton icon="pi pi-times"
 								styleClass="rounded-button ui-button-danger" update="@form"
-								>
+								actionListener="#{beanAutor.acionListenerEliminarBlog(b.idBlog)}">
 								<p:confirm header="Confirmacion " message="Desea eliminar?"
 									icon="pi pi-exclamation-triangle"></p:confirm>
 							</p:commandButton>
@@ -79,7 +79,7 @@
 								update=":formEdicion" onclick="PF('dlgEdicion').show()"></p:commandButton>
 							<p:commandButton icon="pi pi-search" styleClass="rounded-button"
 								title="articulos"
-								action="#{beanAutor.actionConsultarArticulosByBlog(b.idBlog)}"></p:commandButton>
+								action="#{beanAutor.actionConsultarArticulosByBlog(b)}"></p:commandButton>
 						</p:column>
 					</p:dataTable>
 				</h:form>
